@@ -43,8 +43,20 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<Session> sessions = new LinkedHashSet<>();
 
+    public Course(String code) {
+        this.code = code;
+    }
+
+    public Course() {
+
+    }
+
     public String getCode() {
         return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Set<Session> getSessions() {

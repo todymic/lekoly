@@ -2,17 +2,18 @@ package com.tody.lekoly.services;
 
 import com.tody.lekoly.dtos.CourseDto;
 import com.tody.lekoly.entities.Course;
+import com.tody.lekoly.exceptions.DuplicateEntityException;
+import com.tody.lekoly.exceptions.ResourceNotFoundException;
 import com.tody.lekoly.mappers.CourseMapper;
 import com.tody.lekoly.repositories.CourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
 
+    public static final String ID_NOT_FOUND_MESSAGE = "Course not found for this id :: ";
     public final CourseRepository courseRepository;
     public final CourseMapper courseMapper;
 
@@ -25,20 +26,41 @@ public class CourseService {
         List<Course> courses = courseRepository.findAll();
         return courses.stream()
                 .map(courseMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CourseDto createCourse(CourseDto courseDto) {
         Course course = courseMapper.toEntity(courseDto);
-        course = courseRepository.save(course);
+
+        try {
+            course = courseRepository.save(course);
+            return courseMapper.toDto(course);
+        } catch (Exception _) {
+            throw new DuplicateEntityException("Course already exists for this code :: " + course.getCode());
+        }
+    }
+
+    public CourseDto findByCode(String code) {
+        Course course = courseRepository.findByCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found for this code :: " + code));
         return courseMapper.toDto(course);
     }
 
-    public List<CourseDto> findByCode(String code) {
-        List<Course> courses = courseRepository.findByCode(code);
-        return courses.stream()
-                .map(courseMapper::toDto)
-                .collect(Collectors.toList());
+    public void deleteCourse(Long id) {
 
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ID_NOT_FOUND_MESSAGE + id));
+
+        courseRepository.delete(course);
+    }
+
+    public CourseDto updateCourse(Long id, CourseDto courseDto) {
+        
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ID_NOT_FOUND_MESSAGE + id));
+        
+        course = courseMapper.partialUpdate(courseDto, course);
+        course = courseRepository.save(course);
+        return courseMapper.toDto(course);
     }
 }

@@ -1,24 +1,15 @@
 package com.tody.lekoly.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-
 import java.io.Serializable;
 import java.util.Objects;
 
 
 public class CourseDto implements Serializable {
     private final Long id;
-    @NotBlank
     private final String name;
     private final String description;
-    @NotBlank
     private final String code;
-    @NotNull
-    @Positive
     private final Integer coefficient;
-    @NotNull
     private final String status;
 
     public CourseDto(Long id, String name, String description, String code, Integer coefficient, String status) {
