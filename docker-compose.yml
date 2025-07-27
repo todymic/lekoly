@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Service PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: lekoly-postgres
+    environment:
+      POSTGRES_DB: lekoly
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - lekoly-network
+    restart: unless-stopped
+
+
+# Volumes pour persister les données
+volumes:
+  postgres_data:
+
+# Réseau pour la communication entre conteneurs
+networks:
+  lekoly-network:
+    driver: bridge
