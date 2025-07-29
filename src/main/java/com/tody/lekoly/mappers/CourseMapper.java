@@ -10,10 +10,11 @@ import org.mapstruct.*;
 )
 public interface CourseMapper {
 
-    Course toEntity(CourseDto courseDto);
-
     CourseDto toDto(Course course);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Course partialUpdate(CourseDto courseDto, @MappingTarget Course course);
+
+    Course toEntity(CourseDto courseDto);
+
 }
