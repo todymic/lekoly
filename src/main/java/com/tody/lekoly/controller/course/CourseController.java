@@ -21,7 +21,7 @@ class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping("/new")
+    @PostMapping()
     public ResponseEntity<CourseDto> newCourse(@RequestBody @NotNull @Valid CourseDto courseDto) {
 
         CourseDto course = this.courseService.createCourse(courseDto);
@@ -34,7 +34,7 @@ class CourseController {
         return ResponseEntity.created(location).body(course);
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<List<CourseDto>> listAll() {
         List<CourseDto> courseDtos = this.courseService.getAllCourses();
         return ResponseEntity.ok(courseDtos);

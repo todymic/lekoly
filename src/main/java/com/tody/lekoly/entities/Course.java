@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "course", indexes = {
         @Index(name = "idx_course_code", columnList = "code"),
@@ -49,62 +53,6 @@ public class Course {
 
     public Course() {
 
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Set<Session> getSessions() {
-        return sessions;
-    }
-
-    public void setSessions(Set<Session> sessions) {
-        this.sessions = sessions;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getCoefficient() {
-        return coefficient;
-    }
-
-    public void setCoefficient(Integer coefficient) {
-        this.coefficient = coefficient;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @Override
