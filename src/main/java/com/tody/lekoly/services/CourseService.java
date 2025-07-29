@@ -36,7 +36,7 @@ public class CourseService {
             course = courseRepository.save(course);
             return courseMapper.toDto(course);
         } catch (Exception _) {
-            throw new DuplicateEntityException("Course already exists for this code :: " + course.getCode());
+            throw new DuplicateEntityException("Course already exists for this code :: " + courseDto.getCode() );
         }
     }
 
