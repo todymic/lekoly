@@ -45,7 +45,7 @@ CREATE TABLE session
     description   VARCHAR(255),
     start_date    TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     end_date      TIMESTAMP WITHOUT TIME ZONE,
-    status        VARCHAR(255),
+    status        SMALLINT,
     capacity      INTEGER,
     course_id     BIGINT                                  NOT NULL,
     instructor_id BIGINT                                  NOT NULL,
@@ -78,6 +78,10 @@ CREATE INDEX idx_course_code ON course (code);
 CREATE INDEX idx_course_name ON course (name);
 
 CREATE INDEX idx_instructor_email ON instructor (email);
+
+CREATE INDEX idx_session_enddate ON session (end_date);
+
+CREATE INDEX idx_session_startdate ON session (start_date);
 
 ALTER TABLE enrollment
     ADD CONSTRAINT FK_ENROLLMENT_ON_SESSION FOREIGN KEY (session_id) REFERENCES session (id);

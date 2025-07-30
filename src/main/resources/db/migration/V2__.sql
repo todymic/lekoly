@@ -1,0 +1,2 @@
+ALTER TABLE session
+    ALTER COLUMN status TYPE INTEGER USING (status::INTEGER);
