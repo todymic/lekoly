@@ -4,7 +4,10 @@ import com.tody.lekoly.course.dto.CourseDto;
 import com.tody.lekoly.course.entity.Course;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        componentModel = MappingConstants.ComponentModel.SPRING
+)
 public interface CourseMapper {
     Course toEntity(CourseDto courseDto);
 

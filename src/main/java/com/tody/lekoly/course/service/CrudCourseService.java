@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CrudCourseService {
 
@@ -30,9 +32,40 @@ public class CrudCourseService {
 
     public CourseDto findById(@NotNull @Valid Long courseId) {
 
-        Course course = this.courseRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException(" Course with ID :: " + courseId + " not found"));
+        Course course = getCourse(courseId);
 
         return this.courseMapper.toDto(course);
+    }
+
+
+
+    public List<CourseDto> findAll() {
+        List<Course> courses = this.courseRepository.findAll();
+
+        return courses.stream()
+                .map(this.courseMapper::toDto)
+                .toList();
+    }
+
+    public CourseDto update(@NotNull @Valid Long courseId, @NotNull @Valid CourseDto courseDto) {
+
+        Course course = this.getCourse(courseId);
+        Course updatedCourse = this.courseMapper.partialUpdate(courseDto, course);
+
+        Course updateCourse = this.courseRepository.save(updatedCourse);
+
+        return this.courseMapper.toDto(updateCourse);
+        
+    }
+
+    private Course getCourse(Long courseId) {
+        return this.courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with ID :: " + courseId + " not found"));
+    }
+
+    public void removeById(Long courseId) {
+
+        this.getCourse(courseId);
+        this.courseRepository.deleteById(courseId);
     }
 }

@@ -46,6 +46,8 @@ public class Course {
     private CourseStatusEnum status;
 
     @OneToMany(mappedBy = "course", orphanRemoval = true)
+    @Builder.Default
+
     private Set<CourseSession> courseSessions = new LinkedHashSet<>();
 
     @PrePersist

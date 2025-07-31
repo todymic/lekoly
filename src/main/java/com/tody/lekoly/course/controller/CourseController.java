@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/courses")
@@ -36,8 +37,28 @@ class CourseController {
 
     @GetMapping("/{id}")
     public CourseDto findCourse(@PathVariable(name = "id") @NotNull @Valid Long courseId) {
-
         return this.crudCourseService.findById(courseId);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<CourseDto>> findAll() {
+
+        List<CourseDto> courses = this.crudCourseService.findAll();
+
+        return ResponseEntity.ok(courses);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDto> update(@PathVariable(name = "id") @NotNull @Valid Long courseId, @RequestBody @NotNull @Valid CourseDto courseDto) {
+        CourseDto course = this.crudCourseService.update(courseId, courseDto);
+        return ResponseEntity.ok(course);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") @NotNull @Valid Long courseId) {
+
+        this.crudCourseService.removeById(courseId);
+        return ResponseEntity.noContent().build();
 
     }
 }
