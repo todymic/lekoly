@@ -1,2 +1,0 @@
-ALTER TABLE session
-    ALTER COLUMN status TYPE VARCHAR(255) USING (status::VARCHAR(255));

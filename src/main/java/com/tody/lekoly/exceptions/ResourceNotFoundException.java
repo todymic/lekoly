@@ -1,8 +1,0 @@
-package com.tody.lekoly.exceptions;
-
-
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-}
