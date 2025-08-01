@@ -1,6 +1,9 @@
 package com.tody.lekoly.course.entity;
 
 import com.tody.lekoly.course.enums.CourseStatusEnum;
+import com.tody.lekoly.enrollment.entity.Enrollment;
+import com.tody.lekoly.payment.entity.Payment;
+import com.tody.lekoly.user.entity.Instructor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +21,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Table(name = "course")
 public class Course {
     @Id
@@ -31,6 +33,7 @@ public class Course {
     @Column(nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @NotNull
@@ -45,10 +48,25 @@ public class Course {
 
     private CourseStatusEnum status;
 
+    @Column(name = "image", nullable = false)
+    private String image;
+
     @OneToMany(mappedBy = "course", orphanRemoval = true)
     @Builder.Default
+    @ToString.Exclude
+    private Set<Section> sections = new LinkedHashSet<>();
 
-    private Set<CourseSession> courseSessions = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Enrollment> enrollments = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "course")
+    @ToString.Exclude
+    private Set<Payment> payments = new LinkedHashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
 
     @PrePersist
     protected void onCreate() {
@@ -60,4 +78,6 @@ public class Course {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+
 }

@@ -5,11 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "course_session")
-public class CourseSession {
+@Table(name = "section")
+public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -19,6 +22,7 @@ public class CourseSession {
     @Column(nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToOne(optional = false)
@@ -27,8 +31,7 @@ public class CourseSession {
 
     private Integer orderIndex;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "video_id")
-    private Video video;
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Video> videos = new LinkedHashSet<>();
 
 }

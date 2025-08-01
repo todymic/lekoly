@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CourseStatusEnum {
-    DRAFT("D"), PUBLISHED("P"), ARCHIVED("A");
+    DRAFT("D"), PUBLISHED("P"), ARCHIVED("A"), VALIDATED("V");
 
     private final String status;
 
@@ -22,6 +22,9 @@ public enum CourseStatusEnum {
             }
             case "A" -> {
                 return CourseStatusEnum.ARCHIVED;
+            }
+            case "V" -> {
+                return CourseStatusEnum.VALIDATED;
             }
             default -> throw new IllegalArgumentException("Status [" + status + "] nos supported.");
         }
