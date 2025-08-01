@@ -25,4 +25,6 @@ public class CourseDto implements Serializable {
     LocalDateTime updatedAt;
 
     CourseStatusEnum status;
+    @NotNull
+    String image;
 }

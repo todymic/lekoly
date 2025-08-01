@@ -3,6 +3,7 @@ package com.tody.lekoly.course.entity;
 import com.tody.lekoly.course.enums.CourseStatusEnum;
 import com.tody.lekoly.enrollment.entity.Enrollment;
 import com.tody.lekoly.payment.entity.Payment;
+import com.tody.lekoly.review.entity.Opinion;
 import com.tody.lekoly.user.entity.Instructor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -67,6 +68,12 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Opinion> opinions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "course", orphanRemoval = true)
+    private Set<Favorite> favorites = new LinkedHashSet<>();
 
     @PrePersist
     protected void onCreate() {

@@ -3,6 +3,7 @@ package com.tody.lekoly.user.entity;
 import com.tody.lekoly.enrollment.entity.Enrollment;
 import com.tody.lekoly.course.entity.VideoProgress;
 import com.tody.lekoly.payment.entity.Payment;
+import com.tody.lekoly.review.entity.Opinion;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,5 +34,8 @@ public class Student extends User {
 
     @OneToMany(mappedBy = "student")
     private Set<Payment> payments = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Opinion> opinions = new LinkedHashSet<>();
 
 }
